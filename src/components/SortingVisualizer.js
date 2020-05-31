@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import "./SortingVisualizer.css";
 import { testSort } from "../algorithms/testSort.js";
 import { bubbleSort } from "../algorithms/bubbleSort.js";
+import { insertionSortAnimations, insertionSort } from "../algorithms/insertionSort.js";
 
 const colors = {
   unsorted: "#2C75FF",
@@ -36,7 +37,7 @@ class SortingVisualizer extends React.Component {
   };
 
   componentDidMount() {
-    this.resetArray(100);
+    this.resetArray(5);
   }
 
   resetArray = (size) => {
@@ -55,6 +56,26 @@ class SortingVisualizer extends React.Component {
     }
   };
 
+  // sort = () => {
+  //   const unsorted = this.state.array;
+  //   this.setState({array: insertionSortAnimations(this.state.array)})
+  //   testSort(unsorted, this.state.array);
+  //
+  // };
+
+  // sort = () => {
+  //   const SPEED = 12000 / this.state.array.length ** 2;
+  //   const bars = document.getElementsByClassName("bar");
+  //   const unsorted = this.state.array;
+  //   const finishTime = insertionSort(this.state.array, SPEED, bars, colors);
+  //   testSort(unsorted, this.state.array);
+  //     for (let i = finishTime; i < finishTime + this.state.array.length; i++) {
+  //       setTimeout(() => {
+  //         bars[i - finishTime].style.backgroundColor = colors.sorted;
+  //       }, finishTime + (1500 / this.state.array.length) * (i - finishTime));
+  //     }
+  // }
+
   sort = () => {
     const SPEED = 12500 / this.state.array.length ** 2;
     const bars = document.getElementsByClassName("bar");
@@ -63,7 +84,6 @@ class SortingVisualizer extends React.Component {
     testSort(unsorted, this.state.array);
     for (let i = finishTime; i < finishTime + this.state.array.length; i++) {
       setTimeout(() => {
-        console.log(finishTime);
         bars[i - finishTime].style.backgroundColor = colors.sorted;
       }, finishTime + (1500 / this.state.array.length) * (i - finishTime));
     }
@@ -81,20 +101,18 @@ class SortingVisualizer extends React.Component {
         <button className="btn" onClick={this.sort}>
           Sort
         </button>
-        <div>
-          <input
-            type="range"
-            id="size"
-            name="size"
-            min="5"
-            max="300"
-            step="1"
-            value={this.state.array.length}
-            onInput={(e) => {
-              this.newArray(e.target.value);
-            }}
-          />
-        </div>
+        <input
+          type="range"
+          id="size"
+          name="size"
+          min="5"
+          max="300"
+          step="1"
+          value={this.state.array.length}
+          onChange={(e) => {
+            this.newArray(e.target.value);
+          }}
+        />
         <div className="container">
           {this.state.array.map((value, idx) => (
             <div

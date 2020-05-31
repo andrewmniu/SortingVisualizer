@@ -3,6 +3,6 @@ export const testSort = (unsorted, output) => {
   let equal = true;
   equal = JSON.stringify(expected) === JSON.stringify(output);
   console.log(`expected: ${expected}`);
-  console.log(`bubble: ${output}`);
+  console.log(`actual: ${output}`);
   console.log(`Equal: ${equal}`);
 }
