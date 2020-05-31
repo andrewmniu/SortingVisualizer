@@ -17,7 +17,7 @@ class SortingVisualizer extends React.Component {
 
     this.state = {
       array: [],
-      inverse: 0
+      inverse: 0,
     };
   }
 
@@ -47,8 +47,8 @@ class SortingVisualizer extends React.Component {
     this.setState({ array, inverse: 100 * (1 / size) });
   };
 
-  newArray = () => {
-    this.resetArray(this.state.array.length);
+  newArray = (size) => {
+    this.resetArray(size);
     const bars = document.getElementsByClassName("bar");
     for (let i = 0; i < bars.length; i++) {
       bars[i].style.backgroundColor = colors.unsorted;
@@ -56,22 +56,26 @@ class SortingVisualizer extends React.Component {
   };
 
   sort = () => {
-    const SPEED = 500;
+    const SPEED = 12500 / this.state.array.length ** 2;
     const bars = document.getElementsByClassName("bar");
     const unsorted = this.state.array;
     const finishTime = bubbleSort(this.state.array, SPEED, bars, colors);
     testSort(unsorted, this.state.array);
     for (let i = finishTime; i < finishTime + this.state.array.length; i++) {
       setTimeout(() => {
+        console.log(finishTime);
         bars[i - finishTime].style.backgroundColor = colors.sorted;
-      }, finishTime + (1 / 2) * SPEED * (i - finishTime));
+      }, finishTime + (1500 / this.state.array.length) * (i - finishTime));
     }
   };
 
   render() {
     return (
       <React.Fragment>
-        <button className="btn" onClick={this.newArray}>
+        <button
+          className="btn"
+          onClick={() => this.newArray(this.state.array.length)}
+        >
           Generate new array
         </button>
         <button className="btn" onClick={this.sort}>
@@ -87,7 +91,7 @@ class SortingVisualizer extends React.Component {
             step="1"
             value={this.state.array.length}
             onInput={(e) => {
-              this.resetArray(e.target.value);
+              this.newArray(e.target.value);
             }}
           />
         </div>
