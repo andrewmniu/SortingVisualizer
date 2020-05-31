@@ -10,13 +10,14 @@ const colors = {
   swap: "#fd5e53",
   sorted: "#79d70f",
 };
+
 class SortingVisualizer extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       array: [],
-      inverse: 0,
+      inverse: 0
     };
   }
 
@@ -35,20 +36,19 @@ class SortingVisualizer extends React.Component {
   };
 
   componentDidMount() {
-    this.resetArray();
+    this.resetArray(100);
   }
 
-  resetArray = () => {
+  resetArray = (size) => {
     const array = [];
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < size; i++) {
       array.push(randomInt(5, 1000));
     }
-    this.setState({ array, inverse: 100 * (1 / array.length) });
+    this.setState({ array, inverse: 100 * (1 / size) });
   };
 
-
   newArray = () => {
-    this.resetArray();
+    this.resetArray(this.state.array.length);
     const bars = document.getElementsByClassName("bar");
     for (let i = 0; i < bars.length; i++) {
       bars[i].style.backgroundColor = colors.unsorted;
@@ -77,6 +77,20 @@ class SortingVisualizer extends React.Component {
         <button className="btn" onClick={this.sort}>
           Sort
         </button>
+        <div>
+          <input
+            type="range"
+            id="size"
+            name="size"
+            min="5"
+            max="300"
+            step="1"
+            value={this.state.array.length}
+            onInput={(e) => {
+              this.resetArray(e.target.value);
+            }}
+          />
+        </div>
         <div className="container">
           {this.state.array.map((value, idx) => (
             <div
