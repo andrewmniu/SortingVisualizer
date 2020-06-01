@@ -1,9 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import "./SortingVisualizer.css";
+import Controls from "./Controls.js";
 import { testSort } from "../algorithms/testSort.js";
 import { bubbleSort } from "../algorithms/bubbleSort.js";
-import { insertionSortAnimations, insertionSort } from "../algorithms/insertionSort.js";
+import {
+  insertionSortAnimations,
+  insertionSort,
+} from "../algorithms/insertionSort.js";
 
 const colors = {
   unsorted: "#2C75FF",
@@ -26,13 +29,13 @@ class SortingVisualizer extends React.Component {
     return {
       position: "absolute",
       backgroundColor: colors.unsorted,
-      height: `${value / 10}%`,
+      height: `${value / 11}%`,
       width: `${this.state.inverse}%`,
-      borderRight: `${this.state.inverse}px solid #292B2D`,
+      borderRight: `${this.state.inverse}px solid #F2BD93`,
       left: `${idx * this.state.inverse}%`,
       bottom: "0",
       float: "left",
-      marginBottom: "0",
+      marginBottom: "0"
     };
   };
 
@@ -63,56 +66,40 @@ class SortingVisualizer extends React.Component {
   //
   // };
 
-  // sort = () => {
-  //   const SPEED = 12000 / this.state.array.length ** 2;
-  //   const bars = document.getElementsByClassName("bar");
-  //   const unsorted = this.state.array;
-  //   const finishTime = insertionSort(this.state.array, SPEED, bars, colors);
-  //   testSort(unsorted, this.state.array);
-  //     for (let i = finishTime; i < finishTime + this.state.array.length; i++) {
-  //       setTimeout(() => {
-  //         bars[i - finishTime].style.backgroundColor = colors.sorted;
-  //       }, finishTime + (1500 / this.state.array.length) * (i - finishTime));
-  //     }
-  // }
-
   sort = () => {
-    const SPEED = 12500 / this.state.array.length ** 2;
+    const SPEED = 12000 / this.state.array.length ** 2;
     const bars = document.getElementsByClassName("bar");
     const unsorted = this.state.array;
-    const finishTime = bubbleSort(this.state.array, SPEED, bars, colors);
+    const finishTime = insertionSort(this.state.array, SPEED, bars, colors);
     testSort(unsorted, this.state.array);
-    for (let i = finishTime; i < finishTime + this.state.array.length; i++) {
-      setTimeout(() => {
-        bars[i - finishTime].style.backgroundColor = colors.sorted;
-      }, finishTime + (1500 / this.state.array.length) * (i - finishTime));
-    }
-  };
+      for (let i = finishTime; i < finishTime + this.state.array.length; i++) {
+        setTimeout(() => {
+          bars[i - finishTime].style.backgroundColor = colors.sorted;
+        }, finishTime + (1500 / this.state.array.length) * (i - finishTime));
+      }
+  }
+
+  // sort = () => {
+  //   const SPEED = 12500 / this.state.array.length ** 2;
+  //   const bars = document.getElementsByClassName("bar");
+  //   const unsorted = this.state.array;
+  //   const finishTime = bubbleSort(this.state.array, SPEED, bars, colors);
+  //   testSort(unsorted, this.state.array);
+  //   for (let i = finishTime; i < finishTime + this.state.array.length; i++) {
+  //     setTimeout(() => {
+  //       bars[i - finishTime].style.backgroundColor = colors.sorted;
+  //     }, finishTime + (1500 / this.state.array.length) * (i - finishTime));
+  //   }
+  // };
 
   render() {
     return (
       <React.Fragment>
-        <button
-          className="btn"
-          onClick={() => this.newArray(this.state.array.length)}
-        >
-          Generate new array
-        </button>
-        <button className="btn" onClick={this.sort}>
-          Sort
-        </button>
-        <input
-          type="range"
-          id="size"
-          name="size"
-          min="5"
-          max="300"
-          step="1"
-          value={this.state.array.length}
-          onChange={(e) => {
-            this.newArray(e.target.value);
-          }}
-        />
+        <Controls
+          array={this.state.array}
+          newArray={this.newArray}
+          sort={this.sort}
+        ></Controls>
         <div className="container">
           {this.state.array.map((value, idx) => (
             <div
