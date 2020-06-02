@@ -15,12 +15,17 @@ class Controls extends React.Component {
         <button className="control" onClick={this.props.sort}>
           Sort
         </button>
-        <select id="algorithms" className="control">
+        <select
+          value={this.props.algorithm}
+          id="algorithms"
+          className="control"
+          onChange={this.props.choose}
+        >
           <option value="bubble">Bubble Sort</option>
           <option value="insertion">Insertion Sort</option>
         </select>
         <div id="slidecontainer" className="control">
-          <label for="size">Size:</label>
+          <label htmlFor="size">Size:</label>
           <input
             type="range"
             id="size"
@@ -41,10 +46,11 @@ class Controls extends React.Component {
 }
 
 Controls.propTypes = {
-  array: PropTypes.object.isRequired,
-  // inverse: PropTypes.object.isRequired,
+  array: PropTypes.array.isRequired,
+  algorithm: PropTypes.string.isRequired,
   newArray: PropTypes.func.isRequired,
   sort: PropTypes.func.isRequired,
+  choose: PropTypes.func.isRequired
 };
 
 export default Controls;

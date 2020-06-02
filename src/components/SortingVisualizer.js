@@ -21,6 +21,7 @@ class SortingVisualizer extends React.Component {
 
     this.state = {
       array: [],
+      algorithm: "insertion",
       inverse: 0,
     };
   }
@@ -35,12 +36,12 @@ class SortingVisualizer extends React.Component {
       left: `${idx * this.state.inverse}%`,
       bottom: "0",
       float: "left",
-      marginBottom: "0"
+      marginBottom: "0",
     };
   };
 
   componentDidMount() {
-    this.resetArray(5);
+    this.resetArray(100);
   }
 
   resetArray = (size) => {
@@ -67,38 +68,37 @@ class SortingVisualizer extends React.Component {
   // };
 
   sort = () => {
-    const SPEED = 12000 / this.state.array.length ** 2;
+    let SPEED = undefined;
     const bars = document.getElementsByClassName("bar");
     const unsorted = this.state.array;
-    const finishTime = insertionSort(this.state.array, SPEED, bars, colors);
+    let finishTime = undefined;
+    switch (this.state.algorithm) {
+      case "bubble":
+        SPEED = 12500 / this.state.array.length ** 2;
+        finishTime = bubbleSort(this.state.array, SPEED, bars, colors);
+        break;
+      case "insertion":
+        SPEED = 12000 / this.state.array.length ** 2;
+        finishTime = insertionSort(this.state.array, SPEED, bars, colors);
+        break;
+    }
     testSort(unsorted, this.state.array);
-      for (let i = finishTime; i < finishTime + this.state.array.length; i++) {
-        setTimeout(() => {
-          bars[i - finishTime].style.backgroundColor = colors.sorted;
-        }, finishTime + (1500 / this.state.array.length) * (i - finishTime));
-      }
-  }
-
-  // sort = () => {
-  //   const SPEED = 12500 / this.state.array.length ** 2;
-  //   const bars = document.getElementsByClassName("bar");
-  //   const unsorted = this.state.array;
-  //   const finishTime = bubbleSort(this.state.array, SPEED, bars, colors);
-  //   testSort(unsorted, this.state.array);
-  //   for (let i = finishTime; i < finishTime + this.state.array.length; i++) {
-  //     setTimeout(() => {
-  //       bars[i - finishTime].style.backgroundColor = colors.sorted;
-  //     }, finishTime + (1500 / this.state.array.length) * (i - finishTime));
-  //   }
-  // };
+    for (let i = finishTime; i < finishTime + this.state.array.length; i++) {
+      setTimeout(() => {
+        bars[i - finishTime].style.backgroundColor = colors.sorted;
+      }, finishTime + (1500 / this.state.array.length) * (i - finishTime));
+    }
+  };
 
   render() {
     return (
       <React.Fragment>
         <Controls
+          algorithm={this.state.algorithm}
           array={this.state.array}
           newArray={this.newArray}
           sort={this.sort}
+          choose={(e) => this.setState({ algorithm: e.target.value })}
         ></Controls>
         <div className="container">
           {this.state.array.map((value, idx) => (
