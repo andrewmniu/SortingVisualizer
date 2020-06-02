@@ -6,6 +6,7 @@ import { bubbleSort } from "../algorithms/bubbleSort.js";
 import { insertionSort } from "../algorithms/insertionSort.js";
 import { selectionSort } from "../algorithms/selectionSort.js";
 
+// animation colors
 const colors = {
   unsorted: "#2C75FF",
   compare: "#FEFF37",
@@ -19,8 +20,8 @@ class SortingVisualizer extends React.Component {
 
     this.state = {
       array: [],
-      algorithm: "selection",
-      inverse: 0,
+      algorithm: "insertion",
+      inverse: 0, // percentae of 1/size, used to scale bar elements
     };
   }
 
@@ -28,7 +29,7 @@ class SortingVisualizer extends React.Component {
     return {
       position: "absolute",
       backgroundColor: colors.unsorted,
-      height: `${value / 11}%`,
+      height: `${value / 11}%`, // gives a little space at top of container
       width: `${this.state.inverse}%`,
       borderRight: `${this.state.inverse}px solid #F2BD93`,
       left: `${idx * this.state.inverse}%`,
@@ -42,6 +43,7 @@ class SortingVisualizer extends React.Component {
     this.resetArray(100);
   }
 
+  // generates a random array
   resetArray = (size) => {
     const array = [];
     for (let i = 0; i < size; i++) {
@@ -50,6 +52,7 @@ class SortingVisualizer extends React.Component {
     this.setState({ array, inverse: 100 * (1 / size) });
   };
 
+  // resets array and repaints to unsorted
   newArray = (size) => {
     this.resetArray(size);
     const bars = document.getElementsByClassName("bar");
@@ -65,21 +68,21 @@ class SortingVisualizer extends React.Component {
   // };
 
   sort = () => {
-    let speed = undefined;
+    let speed = undefined; //speed of animation, lower value indicates faster animation
     const bars = document.getElementsByClassName("bar");
     const unsorted = this.state.array;
     let finishTime = undefined;
     switch (this.state.algorithm) {
       case "bubble":
-        speed = 15000 / this.state.array.length ** 2;
+        speed = 9000 / this.state.array.length ** 2;
         finishTime = bubbleSort(this.state.array, speed, bars, colors);
         break;
       case "insertion":
-        speed = 12000 / this.state.array.length ** 2;
+        speed = 12500 / this.state.array.length ** 2;
         finishTime = insertionSort(this.state.array, speed, bars, colors);
         break;
       case "selection":
-        speed = 12000 / this.state.array.length ** 2;
+        speed = 11000 / this.state.array.length ** 2;
         finishTime = selectionSort(this.state.array, speed, bars, colors);
         break;
       default:
@@ -87,6 +90,7 @@ class SortingVisualizer extends React.Component {
         break;
     }
     testSort(unsorted, this.state.array);
+    // paints the sorted array green once the animation of sorting is done
     for (let i = finishTime; i < finishTime + this.state.array.length; i++) {
       setTimeout(() => {
         bars[i - finishTime].style.backgroundColor = colors.sorted;
