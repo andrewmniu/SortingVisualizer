@@ -3,10 +3,8 @@ import PropTypes from "prop-types";
 import Controls from "./Controls.js";
 import { testSort } from "../algorithms/testSort.js";
 import { bubbleSort } from "../algorithms/bubbleSort.js";
-import {
-  insertionSortAnimations,
-  insertionSort,
-} from "../algorithms/insertionSort.js";
+import { insertionSort } from "../algorithms/insertionSort.js";
+import { selectionSort } from "../algorithms/selectionSort.js";
 
 const colors = {
   unsorted: "#2C75FF",
@@ -21,7 +19,7 @@ class SortingVisualizer extends React.Component {
 
     this.state = {
       array: [],
-      algorithm: "insertion",
+      algorithm: "selection",
       inverse: 0,
     };
   }
@@ -62,24 +60,30 @@ class SortingVisualizer extends React.Component {
 
   // sort = () => {
   //   const unsorted = this.state.array;
-  //   this.setState({array: insertionSortAnimations(this.state.array)})
+  //   this.setState({ array: selectionSort(this.state.array) });
   //   testSort(unsorted, this.state.array);
-  //
   // };
 
   sort = () => {
-    let SPEED = undefined;
+    let speed = undefined;
     const bars = document.getElementsByClassName("bar");
     const unsorted = this.state.array;
     let finishTime = undefined;
     switch (this.state.algorithm) {
       case "bubble":
-        SPEED = 12500 / this.state.array.length ** 2;
-        finishTime = bubbleSort(this.state.array, SPEED, bars, colors);
+        speed = 15000 / this.state.array.length ** 2;
+        finishTime = bubbleSort(this.state.array, speed, bars, colors);
         break;
       case "insertion":
-        SPEED = 12000 / this.state.array.length ** 2;
-        finishTime = insertionSort(this.state.array, SPEED, bars, colors);
+        speed = 12000 / this.state.array.length ** 2;
+        finishTime = insertionSort(this.state.array, speed, bars, colors);
+        break;
+      case "selection":
+        speed = 12000 / this.state.array.length ** 2;
+        finishTime = selectionSort(this.state.array, speed, bars, colors);
+        break;
+      default:
+        console.log("error");
         break;
     }
     testSort(unsorted, this.state.array);

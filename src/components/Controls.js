@@ -23,6 +23,7 @@ class Controls extends React.Component {
         >
           <option value="bubble">Bubble Sort</option>
           <option value="insertion">Insertion Sort</option>
+          <option value="selection">Selection Sort</option>
         </select>
         <div id="slidecontainer" className="control">
           <label htmlFor="size">Size:</label>

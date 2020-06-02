@@ -29,7 +29,7 @@ const bubbleSortAnimation = (arr) => {
   return animations;
 };
 
-export const bubbleSort = (arr, SPEED, bars, colors) => {
+export const bubbleSort = (arr, speed, bars, colors) => {
   const animations = bubbleSortAnimation(arr);
   console.log(animations.length)
   for (let i = 0; i < animations.length; i++) {
@@ -37,7 +37,7 @@ export const bubbleSort = (arr, SPEED, bars, colors) => {
     setTimeout(() => {
       bars[first].style.backgroundColor = colors.compare;
       bars[second].style.backgroundColor = colors.compare;
-    }, SPEED * (i / 3));
+    }, speed * (i / 3));
     i++;
     setTimeout(() => {
       if (animations[i]) {
@@ -47,11 +47,11 @@ export const bubbleSort = (arr, SPEED, bars, colors) => {
         bars[first].style.height = bars[second].style.height;
         bars[second].style.height = tempHeight;
       }
-    }, SPEED * (i / 3));
+    }, speed * (i / 3));
     setTimeout(() => {
       bars[first].style.backgroundColor = colors.unsorted;
       bars[second].style.backgroundColor = colors.unsorted;
-    }, SPEED * ((i + 1) / 3));
+    }, speed * ((i + 1) / 3));
   }
-  return Math.round(SPEED * animations.length/3);
+  return Math.round(speed * animations.length/3);
 }

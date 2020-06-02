@@ -1,4 +1,4 @@
-const insertionSortAnimations = (arr) => {
+const insertionSortAnimation = (arr) => {
   const animations = [];
   for (let i = 1; i < arr.length; i++){
     const next = arr[i];
@@ -15,19 +15,19 @@ const insertionSortAnimations = (arr) => {
   return animations;
 }
 
-export const insertionSort = (arr, SPEED, bars, colors) => {
-  const animations = insertionSortAnimations(arr);
+export const insertionSort = (arr, speed, bars, colors) => {
+  const animations = insertionSortAnimation(arr);
   let frame = 0;
   for (let i = 0; i < animations.length; i++){
-    if(animations[i].length == 1){
+    if(animations[i].length === 1){
       setTimeout(() =>{
         bars[animations[i]].style.backgroundColor = colors.compare;
-      }, SPEED * frame);
-      if(i+1 >= animations.length || animations[i+1].length == 1){
+      }, speed * frame);
+      if(i+1 >= animations.length || animations[i+1].length === 1){
         frame++;
         setTimeout(() =>{
           bars[animations[i]].style.backgroundColor = colors.unsorted;
-        }, SPEED * frame);
+        }, speed * frame);
       }
     }
     else {
@@ -35,20 +35,20 @@ export const insertionSort = (arr, SPEED, bars, colors) => {
       setTimeout(() => {
         bars[first].style.backgroundColor = colors.swap;
         bars[second].style.backgroundColor = colors.swap;
-      }, SPEED * frame)
+      }, speed * frame)
       frame ++;
       setTimeout(() => {
         const tempHeight = bars[first].style.height;
         bars[first].style.height = bars[second].style.height;
         bars[second].style.height = tempHeight;
-      }, SPEED * frame)
+      }, speed * frame)
       frame ++;
       setTimeout(() => {
         bars[first].style.backgroundColor = colors.unsorted;
         bars[second].style.backgroundColor = colors.unsorted;
-      }, SPEED * frame)
+      }, speed * frame)
     }
     frame++
   }
-  return SPEED * frame;
+  return speed * frame;
 }
