@@ -5,6 +5,7 @@ import { testSort } from "../algorithms/testSort.js";
 import { bubbleSort } from "../algorithms/bubbleSort.js";
 import { insertionSort } from "../algorithms/insertionSort.js";
 import { selectionSort } from "../algorithms/selectionSort.js";
+import { mergeSort } from "../algorithms/mergeSort.js";
 
 // animation colors
 const colors = {
@@ -20,7 +21,7 @@ class SortingVisualizer extends React.Component {
 
     this.state = {
       array: [],
-      algorithm: "insertion",
+      algorithm: "merge",
       inverse: 0, // percentae of 1/size, used to scale bar elements
     };
   }
@@ -41,6 +42,7 @@ class SortingVisualizer extends React.Component {
 
   componentDidMount() {
     this.resetArray(100);
+    // this.setState({array:[82,301,12,947], inverse: 100 * (1 / 4)})
   }
 
   // generates a random array
@@ -63,7 +65,7 @@ class SortingVisualizer extends React.Component {
 
   // sort = () => {
   //   const unsorted = this.state.array;
-  //   this.setState({ array: selectionSort(this.state.array) });
+  //   this.setState({ array: mergeSort(this.state.array, 0, this.state.array.length) });
   //   testSort(unsorted, this.state.array);
   // };
 
@@ -71,24 +73,7 @@ class SortingVisualizer extends React.Component {
     let speed = undefined; //speed of animation, lower value indicates faster animation
     const bars = document.getElementsByClassName("bar");
     const unsorted = this.state.array;
-    let finishTime = undefined;
-    switch (this.state.algorithm) {
-      case "bubble":
-        speed = 9000 / this.state.array.length ** 2;
-        finishTime = bubbleSort(this.state.array, speed, bars, colors);
-        break;
-      case "insertion":
-        speed = 12500 / this.state.array.length ** 2;
-        finishTime = insertionSort(this.state.array, speed, bars, colors);
-        break;
-      case "selection":
-        speed = 11000 / this.state.array.length ** 2;
-        finishTime = selectionSort(this.state.array, speed, bars, colors);
-        break;
-      default:
-        console.log("error");
-        break;
-    }
+    const finishTime = this.runAlgorithm(this.state.array, speed, bars, colors);
     testSort(unsorted, this.state.array);
     // paints the sorted array green once the animation of sorting is done
     for (let i = finishTime; i < finishTime + this.state.array.length; i++) {
@@ -97,6 +82,30 @@ class SortingVisualizer extends React.Component {
       }, finishTime + (1500 / this.state.array.length) * (i - finishTime));
     }
   };
+
+  runAlgorithm = (arr, speed, bars) => {
+    switch (this.state.algorithm) {
+      case "bubble":
+        speed = 9000 / arr.length ** 2;
+        return bubbleSort(arr, speed, bars, colors);
+        break;
+      case "insertion":
+        speed = 12500 / arr.length ** 2;
+        return insertionSort(arr, speed, bars, colors);
+        break;
+      case "selection":
+        speed = 6500 / arr.length ** 2;
+        return selectionSort(arr, speed, bars, colors);
+        break;
+      case "merge":
+        speed = 5000 / (arr.length * Math.log2(arr.length));
+        return mergeSort(arr, speed, bars, colors);
+        break;
+      default:
+        console.log("error");
+        break;
+    }
+  }
 
   render() {
     return (

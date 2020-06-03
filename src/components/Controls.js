@@ -24,6 +24,7 @@ class Controls extends React.Component {
           <option value="bubble">Bubble Sort</option>
           <option value="insertion">Insertion Sort</option>
           <option value="selection">Selection Sort</option>
+          <option value="merge">Merge Sort</option>
         </select>
         <div id="slidecontainer" className="control">
           <label htmlFor="size">Size:</label>
@@ -51,7 +52,7 @@ Controls.propTypes = {
   algorithm: PropTypes.string.isRequired,
   newArray: PropTypes.func.isRequired,
   sort: PropTypes.func.isRequired,
-  choose: PropTypes.func.isRequired
+  choose: PropTypes.func.isRequired,
 };
 
 export default Controls;

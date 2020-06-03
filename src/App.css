@@ -27,24 +27,22 @@ body {
 }
 
 .control {
-  background-color: #123764;
+  background-color: #333;
   color: #fff;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 20px;
   padding: 0.5%;
   margin: 1.25% 2%;
-  border: none;
+  border-radius: 7%;
+  border: #222 2px solid;
   cursor: pointer;
-}
-
-#algorithms{
-  background-color: #333;
-  border-radius: 5%;
 }
 
 #slidecontainer {
   display: inline-block;
   width: 20%;
+  background-color: #123764;
+  border: none;
 }
 
 #slidecontainer label {
