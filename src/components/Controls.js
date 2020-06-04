@@ -22,9 +22,10 @@ class Controls extends React.Component {
           onChange={this.props.choose}
         >
           <option value="bubble">Bubble Sort</option>
-          <option value="insertion">Insertion Sort</option>
           <option value="selection">Selection Sort</option>
+          <option value="insertion">Insertion Sort</option>
           <option value="merge">Merge Sort</option>
+          <option value="heap">Heap Sort</option>
         </select>
         <div id="slidecontainer" className="control">
           <label htmlFor="size">Size:</label>

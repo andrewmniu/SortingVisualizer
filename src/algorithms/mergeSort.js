@@ -42,7 +42,7 @@ function merge(arr, l, m, r, animations) {
     k++;
   }
 
-// add remaining elements
+  // add remaining elements
   while (i < L.length) {
     arr[k] = L[i];
     i++;
@@ -72,7 +72,7 @@ export function mergeSort(arr, speed, bars, colors) {
         frame++;
         break;
       case "move":
-      // moves the smallest of the two compared to kth index
+        // moves the smallest of the two compared to kth index
         if (first !== second) {
           setTimeout(() => {
             bars[first].style.backgroundColor = colors.swap;
