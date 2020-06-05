@@ -1,6 +1,5 @@
 import React from "react";
 import Controls from "./Controls.js";
-import { testSort } from "../algorithms/testSort.js";
 import { bubbleSort } from "../algorithms/bubbleSort.js";
 import { insertionSort } from "../algorithms/insertionSort.js";
 import { selectionSort } from "../algorithms/selectionSort.js";
