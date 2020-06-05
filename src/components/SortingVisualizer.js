@@ -10,22 +10,20 @@ import { quickSort } from "../algorithms/quickSort.js";
 
 // animation colors
 const colors = {
-  unsorted: "#2C75FF",
-  compare: "#FEFF37",
-  swap: "#fd5e53",
-  sorted: "#79d70f",
+  unsorted: "#2C75FF", // blue
+  compare: "#FEFF37", // yellow
+  swap: "#fd5e53", // red
+  sorted: "#79d70f", // green
 };
 
 class SortingVisualizer extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      array: [],
-      algorithm: "quick",
-      inverse: 0, // percentae of 1/size, used to scale bar elements
-    };
-  }
+  state = {
+    array: [],
+    inverse: 0, // percentage of 1/size, used to scale bar elements
+    algorithm: "quick",
+    sorted: false,
+    sorting: false,
+  };
 
   barStyle = (value, idx) => {
     return {
@@ -43,7 +41,6 @@ class SortingVisualizer extends React.Component {
 
   componentDidMount() {
     this.resetArray(100);
-    // this.setState({array:[82,301,12,947], inverse: 100 * (1 / 4)})
   }
 
   // generates a random array
@@ -52,38 +49,40 @@ class SortingVisualizer extends React.Component {
     for (let i = 0; i < size; i++) {
       array.push(randomInt(5, 1000));
     }
-    this.setState({ array, inverse: 100 * (1 / size) });
-  };
-
-  // resets array and repaints to unsorted
-  newArray = (size) => {
-    this.resetArray(size);
-    const bars = document.getElementsByClassName("bar");
-    for (let i = 0; i < bars.length; i++) {
-      bars[i].style.backgroundColor = colors.unsorted;
+    if (this.state.sorted) {
+      const bars = document.getElementsByClassName("bar");
+      for (let i = 0; i < bars.length; i++) {
+        bars[i].style.backgroundColor = colors.unsorted;
+      }
     }
+    this.setState({ array, inverse: 100 * (1 / size), sorted: false });
   };
 
-  // sort = () => {
-  //   const unsorted = this.state.array;
-  //   this.setState({ array: quickSort(this.state.array, 0, this.state.array.length-1) });
-  //   testSort(unsorted, this.state.array);
-  // };
-
+  // does not update state of array, only css styling
   sort = () => {
+    this.setState({sorting: true})
     let speed = undefined; //speed of animation, lower value indicates faster animation
     const bars = document.getElementsByClassName("bar");
-    const unsorted = this.state.array;
-    const finishTime = this.runAlgorithm(this.state.array, speed, bars, colors);
-    testSort(unsorted, this.state.array);
+    const finishTime = this.runAlgorithm(
+      [...this.state.array],
+      speed,
+      bars,
+      colors
+    );
     // paints the sorted array green once the animation of sorting is done
     for (let i = finishTime; i < finishTime + this.state.array.length; i++) {
       setTimeout(() => {
         bars[i - finishTime].style.backgroundColor = colors.sorted;
       }, finishTime + (1500 / this.state.array.length) * (i - finishTime));
     }
+    this.setState({ sorted: true });
+    setTimeout(() => {
+      this.setState({sorting:false})
+    }, finishTime + (1500 / this.state.array.length)*this.state.array.length);
   };
 
+  // chooses the algorithm to run based on algorithm this.state
+  // speed is determined by an arbitrary constant and the algorithm's asymptotic run time
   runAlgorithm = (arr, speed, bars) => {
     switch (this.state.algorithm) {
       case "bubble":
@@ -110,15 +109,23 @@ class SortingVisualizer extends React.Component {
     }
   };
 
+  choose = (e) => {
+    if (this.state.sorted) {
+      this.resetArray(this.state.array.length);
+    }
+    this.setState({ algorithm: e.target.value });
+  };
+
   render() {
     return (
       <React.Fragment>
         <Controls
           algorithm={this.state.algorithm}
           array={this.state.array}
-          newArray={this.newArray}
+          resetArray={this.resetArray}
           sort={this.sort}
-          choose={(e) => this.setState({ algorithm: e.target.value })}
+          sorting={this.state.sorting}
+          choose={this.choose}
         ></Controls>
         <div className="container">
           {this.state.array.map((value, idx) => (

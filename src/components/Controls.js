@@ -8,17 +8,23 @@ class Controls extends React.Component {
       <header id="controlbar">
         <button
           className="control"
-          onClick={this.props.newArray.bind(this, this.props.array.length)}
+          disabled={this.props.sorting}
+          onClick={this.props.resetArray.bind(this, this.props.array.length)}
         >
           Randomize
         </button>
-        <button className="control" onClick={this.props.sort}>
+        <button
+          className="control"
+          disabled={this.props.sorting}
+          onClick={this.props.sort}
+        >
           Sort
         </button>
         <select
           value={this.props.algorithm}
           id="algorithms"
           className="control"
+          disabled={this.props.sorting}
           onChange={this.props.choose}
         >
           <option value="bubble">Bubble Sort</option>
@@ -39,8 +45,9 @@ class Controls extends React.Component {
             max="300"
             step="1"
             value={this.props.array.length}
+            disabled={this.props.sorting}
             onChange={(e) => {
-              this.props.newArray(e.target.value);
+              this.props.resetArray(e.target.value);
             }}
           />
         </div>
@@ -52,7 +59,8 @@ class Controls extends React.Component {
 Controls.propTypes = {
   array: PropTypes.array.isRequired,
   algorithm: PropTypes.string.isRequired,
-  newArray: PropTypes.func.isRequired,
+  sorting: PropTypes.bool.isRequired,
+  resetArray: PropTypes.func.isRequired,
   sort: PropTypes.func.isRequired,
   choose: PropTypes.func.isRequired,
 };
