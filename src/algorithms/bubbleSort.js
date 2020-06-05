@@ -1,23 +1,4 @@
-// Creates an array of indices that are being compared/swapped during sorting
-const bubbleSortAnimation = (arr) => {
-  const animations = [];
-  for (let i = 0; i < arr.length; i++) {
-    for (let j = 0; j < arr.length - 1 - i; j++) {
-      animations.push([j, j + 1]); // two adjacent values being compared
-      let swap = arr[j] > arr[j + 1];
-      animations.push(swap); // whether the two values are out of order
-      if (swap) {
-        const temp = arr[j];
-        arr[j] = arr[j + 1];
-        arr[j + 1] = temp;
-      }
-    }
-  }
-  console.log(animations.length);
-  return animations;
-};
-
-export const bubbleSort = (arr, speed, bars, colors) => {
+export function bubbleSort(arr, speed, bars, colors) {
   const animations = bubbleSortAnimation(arr);
   let frame = 0; // animation frame
   for (let i = 0; i < animations.length; i++) {
@@ -48,4 +29,22 @@ export const bubbleSort = (arr, speed, bars, colors) => {
     frame++;
   }
   return Math.round(speed * frame); // end time of sorting animation
+}
+
+// Creates an array of indices that are being compared/swapped during sorting
+function bubbleSortAnimation(arr) {
+  const animations = [];
+  for (let i = 0; i < arr.length; i++) {
+    for (let j = 0; j < arr.length - 1 - i; j++) {
+      animations.push([j, j + 1]); // two adjacent values being compared
+      let swap = arr[j] > arr[j + 1];
+      animations.push(swap); // whether the two values are out of order
+      if (swap) {
+        const temp = arr[j];
+        arr[j] = arr[j + 1];
+        arr[j + 1] = temp;
+      }
+    }
+  }
+  return animations;
 }

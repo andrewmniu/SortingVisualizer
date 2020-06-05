@@ -1,22 +1,4 @@
-// Creates an array of indices that are being compared/swapped during sorting
-const insertionSortAnimation = (arr) => {
-  const animations = [];
-  for (let i = 1; i < arr.length; i++) {
-    const next = arr[i];
-    let j = i - 1;
-    animations.push([i]); // next value being inserted
-    while (j >= 0 && next < arr[j]) {
-      arr[j + 1] = arr[j];
-      animations.push([j, j + 1]); // comparisons to insert at right spot
-      j--;
-    }
-    arr[j + 1] = next;
-  }
-  console.log(animations.length);
-  return animations;
-};
-
-export const insertionSort = (arr, speed, bars, colors) => {
+export function insertionSort(arr, speed, bars, colors) {
   const animations = insertionSortAnimation(arr);
   let frame = 0; // animation frame
   for (let i = 0; i < animations.length; i++) {
@@ -56,4 +38,21 @@ export const insertionSort = (arr, speed, bars, colors) => {
     frame++;
   }
   return Math.round(speed * frame); // end time of sorting animation
-};
+}
+
+// Creates an array of indices that are being compared/swapped during sorting
+function insertionSortAnimation(arr) {
+  const animations = [];
+  for (let i = 1; i < arr.length; i++) {
+    const next = arr[i];
+    let j = i - 1;
+    animations.push([i]); // next value being inserted
+    while (j >= 0 && next < arr[j]) {
+      arr[j + 1] = arr[j];
+      animations.push([j, j + 1]); // comparisons to insert at right spot
+      j--;
+    }
+    arr[j + 1] = next;
+  }
+  return animations;
+}

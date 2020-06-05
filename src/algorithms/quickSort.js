@@ -1,40 +1,6 @@
-// Creates an array of indices that are being compared/swapped during sorting
-// This is standard quick sort but it also passes in the animations array
-function quickSortAnimation(arr, low, high, animations) {
-  if (low < high) {
-    let p = partition(arr, low, high, animations);
-
-    quickSortAnimation(arr, low, p - 1, animations);
-    quickSortAnimation(arr, p + 1, high, animations);
-  }
-  return arr;
-}
-
-// partitions array around pivot
-function partition(arr, low, high, animations) {
-  const pivot = arr[high];
-  animations.push(["pivot", high]); // pivot index
-  let i = low; // low +_# of elements lower than pivot
-  for (let j = low; j < high; j++) {
-    animations.push(["compare", j]); // highlight element being compared to pivot
-    if (arr[j] < pivot) {
-      animations.push(["swap", i, j]); // move element into correct partition
-      const temp = arr[i];
-      arr[i] = arr[j];
-      arr[j] = temp;
-      i++;
-    }
-  }
-  animations.push(["swap", i, high]); // place pivot element in correct index
-  arr[high] = arr[i];
-  arr[i] = pivot;
-  return i;
-}
-
 export function quickSort(arr, speed, bars, colors) {
   const animations = [];
   quickSortAnimation(arr, 0, arr.length - 1, animations);
-  console.log(animations.length);
   let frame = 0; // animation frame
   for (let i = 0; i < animations.length; i++) {
     const [first, second] = animations[i].slice(1);
@@ -80,4 +46,37 @@ export function quickSort(arr, speed, bars, colors) {
     frame++;
   }
   return Math.round(speed * frame); // end time of sorting animation
+}
+
+// Creates an array of indices that are being compared/swapped during sorting
+// This is standard quick sort but it also passes in the animations array
+function quickSortAnimation(arr, low, high, animations) {
+  if (low < high) {
+    let p = partition(arr, low, high, animations);
+
+    quickSortAnimation(arr, low, p - 1, animations);
+    quickSortAnimation(arr, p + 1, high, animations);
+  }
+  return arr;
+}
+
+// partitions array around pivot
+function partition(arr, low, high, animations) {
+  const pivot = arr[high];
+  animations.push(["pivot", high]); // pivot index
+  let i = low; // low +_# of elements lower than pivot
+  for (let j = low; j < high; j++) {
+    animations.push(["compare", j]); // highlight element being compared to pivot
+    if (arr[j] < pivot) {
+      animations.push(["swap", i, j]); // move element into correct partition
+      const temp = arr[i];
+      arr[i] = arr[j];
+      arr[j] = temp;
+      i++;
+    }
+  }
+  animations.push(["swap", i, high]); // place pivot element in correct index
+  arr[high] = arr[i];
+  arr[i] = pivot;
+  return i;
 }

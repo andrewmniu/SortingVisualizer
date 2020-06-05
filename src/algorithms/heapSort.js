@@ -1,3 +1,57 @@
+export function heapSort(arr, speed, bars, colors) {
+  const animations = [];
+  heapSortAnimation(arr, animations);
+  let frame = 0; // animation frame
+  for (let i = 0; i < animations.length; i++) {
+    const [first, second] = animations[i].slice(1);
+    switch (animations[i][0]) {
+      // highlights the two bars being compared
+      case "compare":
+        setTimeout(() => {
+          bars[first].style.backgroundColor = colors.compare;
+          bars[second].style.backgroundColor = colors.compare;
+        }, speed * frame);
+        frame++;
+        break;
+      // moves largest node to the root of subtree
+      case "swap":
+        setTimeout(() => {
+          bars[first].style.backgroundColor = colors.swap;
+          bars[second].style.backgroundColor = colors.swap;
+        }, speed * frame);
+        frame++;
+        setTimeout(() => {
+          const tempHeight = bars[first].style.height;
+          bars[first].style.height = bars[second].style.height;
+          bars[second].style.height = tempHeight;
+        }, speed * frame);
+        break;
+      // pops max element and percolates last element down
+      case "pop":
+        setTimeout(() => {
+          bars[first].style.backgroundColor = colors.swap;
+          bars[second].style.backgroundColor = colors.swap;
+        }, speed * frame);
+        frame++;
+        setTimeout(() => {
+          const tempHeight = bars[first].style.height;
+          bars[first].style.height = bars[second].style.height;
+          bars[second].style.height = tempHeight;
+        }, speed * frame);
+        break;
+      default:
+        console.log("error");
+        break;
+    }
+    setTimeout(() => {
+      bars[first].style.backgroundColor = colors.unsorted;
+      bars[second].style.backgroundColor = colors.unsorted;
+    }, speed * frame);
+    frame++;
+  }
+  return Math.round(speed * frame); // end time of sorting animation
+}
+
 // Creates an array of indices that are being compared/swapped during sorting
 // This is standard heap sort but it also passes in the animations array
 function heapSortAnimation(arr, animations) {
@@ -40,59 +94,4 @@ function heapify(arr, n, i, animations) {
 
     heapify(arr, n, largest, animations);
   }
-}
-
-export function heapSort(arr, speed, bars, colors) {
-  const animations = [];
-  heapSortAnimation(arr, animations);
-  console.log(animations.length);
-  let frame = 0; // animation frame
-  for (let i = 0; i < animations.length; i++) {
-    const [first, second] = animations[i].slice(1);
-    switch (animations[i][0]) {
-      // highlights the two bars being compared
-      case "compare":
-        setTimeout(() => {
-          bars[first].style.backgroundColor = colors.compare;
-          bars[second].style.backgroundColor = colors.compare;
-        }, speed * frame);
-        frame++;
-        break;
-      // moves largest node to the root of subtree
-      case "swap":
-        setTimeout(() => {
-          bars[first].style.backgroundColor = colors.swap;
-          bars[second].style.backgroundColor = colors.swap;
-        }, speed * frame);
-        frame++;
-        setTimeout(() => {
-          const tempHeight = bars[first].style.height;
-          bars[first].style.height = bars[second].style.height;
-          bars[second].style.height = tempHeight;
-        }, speed * frame);
-        break;
-      // pops max element and percolates last element down
-      case "pop":
-      setTimeout(() => {
-        bars[first].style.backgroundColor = colors.swap;
-        bars[second].style.backgroundColor = colors.swap;
-      }, speed * frame);
-      frame++;
-        setTimeout(() => {
-          const tempHeight = bars[first].style.height;
-          bars[first].style.height = bars[second].style.height;
-          bars[second].style.height = tempHeight;
-        }, speed * frame);
-        break;
-      default:
-        console.log("error");
-        break;
-    }
-    setTimeout(() => {
-      bars[first].style.backgroundColor = colors.unsorted;
-      bars[second].style.backgroundColor = colors.unsorted;
-    }, speed * frame);
-    frame++;
-  }
-  return Math.round(speed * frame); // end time of sorting animation
 }

@@ -1,3 +1,50 @@
+export function mergeSort(arr, speed, bars, colors) {
+  const animations = [];
+  mergeSortAnimation(arr, 0, arr.length - 1, animations);
+  let frame = 0; // animation frame
+  for (let i = 0; i < animations.length; i++) {
+    const [first, second] = animations[i].slice(1);
+    switch (animations[i][0]) {
+      // highlights the two bars being compared
+      case "next":
+        setTimeout(() => {
+          bars[first].style.backgroundColor = colors.compare;
+          bars[second].style.backgroundColor = colors.compare;
+        }, speed * frame);
+        frame++;
+        break;
+      case "move":
+        // moves the smallest of the two compared to kth index
+        if (first !== second) {
+          setTimeout(() => {
+            bars[first].style.backgroundColor = colors.swap;
+            bars[second].style.backgroundColor = colors.swap;
+          }, speed * frame);
+          frame++;
+          setTimeout(() => {
+            const tempHeight = bars[first].style.height;
+            bars[first].style.height = bars[second].style.height;
+            // this shifts all the bars in between one to the right
+            for (let j = second; j > first + 1; j--) {
+              bars[j].style.height = bars[j - 1].style.height;
+            }
+            bars[first + 1].style.height = tempHeight;
+          }, speed * frame);
+        }
+        break;
+      default:
+        console.log("error");
+        break;
+    }
+    setTimeout(() => {
+      bars[first].style.backgroundColor = colors.unsorted;
+      bars[second].style.backgroundColor = colors.unsorted;
+    }, speed * frame);
+    frame++;
+  }
+  return Math.round(speed * frame); // end time of sorting animation
+}
+
 // Creates an array of indices that are being compared/swapped during sorting
 // This is standard merge sort but it also passes in the animations array
 function mergeSortAnimation(arr, l, r, animations) {
@@ -52,52 +99,4 @@ function merge(arr, l, m, r, animations) {
     j++;
     k++;
   }
-}
-
-export function mergeSort(arr, speed, bars, colors) {
-  const animations = [];
-  mergeSortAnimation(arr, 0, arr.length - 1, animations);
-  console.log(animations.length);
-  let frame = 0; // animation frame
-  for (let i = 0; i < animations.length; i++) {
-    const [first, second] = animations[i].slice(1);
-    switch (animations[i][0]) {
-      // highlights the two bars being compared
-      case "next":
-        setTimeout(() => {
-          bars[first].style.backgroundColor = colors.compare;
-          bars[second].style.backgroundColor = colors.compare;
-        }, speed * frame);
-        frame++;
-        break;
-      case "move":
-        // moves the smallest of the two compared to kth index
-        if (first !== second) {
-          setTimeout(() => {
-            bars[first].style.backgroundColor = colors.swap;
-            bars[second].style.backgroundColor = colors.swap;
-          }, speed * frame);
-          frame++;
-          setTimeout(() => {
-            const tempHeight = bars[first].style.height;
-            bars[first].style.height = bars[second].style.height;
-            // this shifts all the bars in between one to the right
-            for (let j = second; j > first + 1; j--) {
-              bars[j].style.height = bars[j - 1].style.height;
-            }
-            bars[first + 1].style.height = tempHeight;
-          }, speed * frame);
-        }
-        break;
-      default:
-        console.log("error");
-        break;
-    }
-    setTimeout(() => {
-      bars[first].style.backgroundColor = colors.unsorted;
-      bars[second].style.backgroundColor = colors.unsorted;
-    }, speed * frame);
-    frame++;
-  }
-  return Math.round(speed * frame); // end time of sorting animation
 }
