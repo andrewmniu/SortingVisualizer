@@ -1,5 +1,5 @@
 // Creates an array of indices that are being compared/swapped during sorting
-// This is standard mergeSort but it also passes in the animations array
+// This is standard merge sort but it also passes in the animations array
 function mergeSortAnimation(arr, l, r, animations) {
   if (l < r) {
     const m = Math.floor((l + r) / 2);
@@ -9,7 +9,6 @@ function mergeSortAnimation(arr, l, r, animations) {
 
     merge(arr, l, m, r, animations);
   }
-  return animations;
 }
 
 // helper merge function

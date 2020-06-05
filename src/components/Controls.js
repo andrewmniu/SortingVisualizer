@@ -26,6 +26,7 @@ class Controls extends React.Component {
           <option value="insertion">Insertion Sort</option>
           <option value="merge">Merge Sort</option>
           <option value="heap">Heap Sort</option>
+          <option value="quick">Quick Sort</option>
         </select>
         <div id="slidecontainer" className="control">
           <label htmlFor="size">Size:</label>

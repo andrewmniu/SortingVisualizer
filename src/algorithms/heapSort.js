@@ -1,4 +1,5 @@
 // Creates an array of indices that are being compared/swapped during sorting
+// This is standard heap sort but it also passes in the animations array
 function heapSortAnimation(arr, animations) {
   for (let i = Math.floor(arr.length / 2) - 1; i >= 0; i--) {
     heapify(arr, arr.length, i, animations);
@@ -11,11 +12,9 @@ function heapSortAnimation(arr, animations) {
     arr[i] = temp;
     heapify(arr, i, 0, animations);
   }
-
-  return arr;
 }
 
-// maintains max heap upon pop
+// generates max heap
 function heapify(arr, n, i, animations) {
   let largest = i;
   const l = 2 * i + 1;
@@ -33,7 +32,7 @@ function heapify(arr, n, i, animations) {
     }
   }
 
-  if (largest != i) {
+  if (largest !== i) {
     animations.push(["swap", i, largest]); // reordering
     const temp = arr[i];
     arr[i] = arr[largest];
@@ -47,7 +46,7 @@ export function heapSort(arr, speed, bars, colors) {
   const animations = [];
   heapSortAnimation(arr, animations);
   console.log(animations.length);
-  let frame = 0;
+  let frame = 0; // animation frame
   for (let i = 0; i < animations.length; i++) {
     const [first, second] = animations[i].slice(1);
     switch (animations[i][0]) {

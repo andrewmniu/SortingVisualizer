@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import Controls from "./Controls.js";
 import { testSort } from "../algorithms/testSort.js";
 import { bubbleSort } from "../algorithms/bubbleSort.js";
@@ -7,6 +6,7 @@ import { insertionSort } from "../algorithms/insertionSort.js";
 import { selectionSort } from "../algorithms/selectionSort.js";
 import { mergeSort } from "../algorithms/mergeSort.js";
 import { heapSort } from "../algorithms/heapSort.js";
+import { quickSort } from "../algorithms/quickSort.js";
 
 // animation colors
 const colors = {
@@ -22,7 +22,7 @@ class SortingVisualizer extends React.Component {
 
     this.state = {
       array: [],
-      algorithm: "heap",
+      algorithm: "quick",
       inverse: 0, // percentae of 1/size, used to scale bar elements
     };
   }
@@ -66,7 +66,7 @@ class SortingVisualizer extends React.Component {
 
   // sort = () => {
   //   const unsorted = this.state.array;
-  //   this.setState({ array: heapSort(this.state.array) });
+  //   this.setState({ array: quickSort(this.state.array, 0, this.state.array.length-1) });
   //   testSort(unsorted, this.state.array);
   // };
 
@@ -89,28 +89,26 @@ class SortingVisualizer extends React.Component {
       case "bubble":
         speed = 9000 / arr.length ** 2;
         return bubbleSort(arr, speed, bars, colors);
-        break;
       case "selection":
         speed = 6500 / arr.length ** 2;
         return selectionSort(arr, speed, bars, colors);
-        break;
       case "insertion":
         speed = 12500 / arr.length ** 2;
         return insertionSort(arr, speed, bars, colors);
-        break;
       case "merge":
         speed = 5000 / (arr.length * Math.log2(arr.length));
         return mergeSort(arr, speed, bars, colors);
-        break;
       case "heap":
         speed = speed = 3000 / (arr.length * Math.log2(arr.length));
         return heapSort(arr, speed, bars, colors);
-        break;
+      case "quick":
+        speed = 4000 / (arr.length * Math.log2(arr.length));
+        return quickSort(arr, speed, bars, colors);
       default:
         console.log("error");
         break;
     }
-  }
+  };
 
   render() {
     return (
