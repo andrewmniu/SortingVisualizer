@@ -19,7 +19,7 @@ class SortingVisualizer extends React.Component {
   state = {
     array: [],
     inverse: 0, // percentage of 1/size, used to scale bar elements
-    algorithm: "heap",
+    algorithm: "quick",
     sorted: false,
     sorting: false,
   };
