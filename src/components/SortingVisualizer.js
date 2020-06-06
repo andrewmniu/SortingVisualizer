@@ -121,9 +121,10 @@ class SortingVisualizer extends React.Component {
         <Controls
           algorithm={this.state.algorithm}
           array={this.state.array}
+          sorting={this.state.sorting}
+          sorted={this.state.sorted}
           resetArray={this.resetArray}
           sort={this.sort}
-          sorting={this.state.sorting}
           choose={this.choose}
         ></Controls>
         <div className="container">

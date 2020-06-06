@@ -15,7 +15,7 @@ class Controls extends React.Component {
         </button>
         <button
           className="control"
-          disabled={this.props.sorting}
+          disabled={this.props.sorting || this.props.sorted}
           onClick={this.props.sort}
         >
           Sort
@@ -60,6 +60,7 @@ Controls.propTypes = {
   array: PropTypes.array.isRequired,
   algorithm: PropTypes.string.isRequired,
   sorting: PropTypes.bool.isRequired,
+  sorted: PropTypes.bool.isRequired,
   resetArray: PropTypes.func.isRequired,
   sort: PropTypes.func.isRequired,
   choose: PropTypes.func.isRequired,
