@@ -1,6 +1,6 @@
 export function heapSort(arr, speed, bars, colors) {
   const animations = [];
-  heapSortAnimation(arr, animations);
+  const sorted = heapSortAnimation(arr, animations);
   let frame = 0; // animation frame
   for (let i = 0; i < animations.length; i++) {
     const [first, second] = animations[i].slice(1);
@@ -49,7 +49,7 @@ export function heapSort(arr, speed, bars, colors) {
     }, speed * frame);
     frame++;
   }
-  return Math.round(speed * frame); // end time of sorting animation
+  return [Math.round(speed * frame), sorted]; // end time of sorting animation
 }
 
 // Creates an array of indices that are being compared/swapped during sorting
@@ -66,6 +66,7 @@ function heapSortAnimation(arr, animations) {
     arr[i] = temp;
     heapify(arr, i, 0, animations);
   }
+  return arr;
 }
 
 // generates max heap

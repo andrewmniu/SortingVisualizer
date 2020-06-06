@@ -1,6 +1,6 @@
 export function mergeSort(arr, speed, bars, colors) {
   const animations = [];
-  mergeSortAnimation(arr, 0, arr.length - 1, animations);
+  const sorted = mergeSortAnimation(arr, 0, arr.length - 1, animations);
   let frame = 0; // animation frame
   for (let i = 0; i < animations.length; i++) {
     const [first, second] = animations[i].slice(1);
@@ -42,7 +42,7 @@ export function mergeSort(arr, speed, bars, colors) {
     }, speed * frame);
     frame++;
   }
-  return Math.round(speed * frame); // end time of sorting animation
+  return [Math.round(speed * frame), sorted]; // end time of sorting animation
 }
 
 // Creates an array of indices that are being compared/swapped during sorting
@@ -56,6 +56,7 @@ function mergeSortAnimation(arr, l, r, animations) {
 
     merge(arr, l, m, r, animations);
   }
+  return arr;
 }
 
 // helper merge function

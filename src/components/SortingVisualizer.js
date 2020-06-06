@@ -19,7 +19,7 @@ class SortingVisualizer extends React.Component {
   state = {
     array: [],
     inverse: 0, // percentage of 1/size, used to scale bar elements
-    algorithm: "quick",
+    algorithm: "heap",
     sorted: false,
     sorting: false,
   };
@@ -48,21 +48,22 @@ class SortingVisualizer extends React.Component {
     for (let i = 0; i < size; i++) {
       array.push(randomInt(5, 1000));
     }
+    const bars = document.getElementsByClassName("bar");
     if (this.state.sorted) {
-      const bars = document.getElementsByClassName("bar");
       for (let i = 0; i < bars.length; i++) {
         bars[i].style.backgroundColor = colors.unsorted;
       }
     }
     this.setState({ array, inverse: 100 * (1 / size), sorted: false });
+    // this.setState(test);
   };
 
   // does not update state of array, only css styling
   sort = () => {
-    this.setState({sorting: true})
+    this.setState({ sorting: true });
     let speed = undefined; //speed of animation, lower value indicates faster animation
     const bars = document.getElementsByClassName("bar");
-    const finishTime = this.runAlgorithm(
+    const [finishTime, sortedArray] = this.runAlgorithm(
       [...this.state.array],
       speed,
       bars,
@@ -74,10 +75,9 @@ class SortingVisualizer extends React.Component {
         bars[i - finishTime].style.backgroundColor = colors.sorted;
       }, finishTime + (1500 / this.state.array.length) * (i - finishTime));
     }
-    this.setState({ sorted: true });
     setTimeout(() => {
-      this.setState({sorting:false})
-    }, finishTime + (1500 / this.state.array.length)*this.state.array.length);
+      this.setState({ array: sortedArray, sorting: false, sorted: true });
+    }, finishTime + (1500 / this.state.array.length) * this.state.array.length);
   };
 
   // chooses the algorithm to run based on algorithm this.state

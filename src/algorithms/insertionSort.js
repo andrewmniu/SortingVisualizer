@@ -1,5 +1,5 @@
 export function insertionSort(arr, speed, bars, colors) {
-  const animations = insertionSortAnimation(arr);
+  const [animations, sorted] = insertionSortAnimation(arr);
   let frame = 0; // animation frame
   for (let i = 0; i < animations.length; i++) {
     // highlights next bar to be inserted
@@ -37,7 +37,7 @@ export function insertionSort(arr, speed, bars, colors) {
     }
     frame++;
   }
-  return Math.round(speed * frame); // end time of sorting animation
+  return [Math.round(speed * frame), sorted]; // end time of sorting animation
 }
 
 // Creates an array of indices that are being compared/swapped during sorting
@@ -54,5 +54,5 @@ function insertionSortAnimation(arr) {
     }
     arr[j + 1] = next;
   }
-  return animations;
+  return [animations, arr];
 }

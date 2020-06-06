@@ -1,5 +1,5 @@
 export function selectionSort(arr, speed, bars, colors) {
-  const animations = selectionSortAnimation(arr);
+  const [animations, sorted] = selectionSortAnimation(arr);
   let frame = 0; // animation frame
   for (let i = 0; i < animations.length; i++) {
     switch (animations[i][0]) {
@@ -44,7 +44,7 @@ export function selectionSort(arr, speed, bars, colors) {
     }
     frame++;
   }
-  return Math.round(speed * frame); // end time of sorting animation
+  return [Math.round(speed * frame), sorted]; // end time of sorting animation
 }
 
 // Creates an array of indices that are being compared/swapped during sorting
@@ -65,5 +65,5 @@ function selectionSortAnimation(arr) {
     arr[min_idx] = arr[i];
     arr[i] = temp;
   }
-  return animations;
+  return [animations, arr];
 }
