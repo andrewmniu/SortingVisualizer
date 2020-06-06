@@ -95,6 +95,7 @@ class SortingVisualizer extends React.Component {
         return insertionSort(arr, speed, bars, colors);
       case "merge":
         speed = 5000 / (arr.length * Math.log2(arr.length));
+        // speed = 500;
         return mergeSort(arr, speed, bars, colors);
       case "heap":
         speed = speed = 3000 / (arr.length * Math.log2(arr.length));

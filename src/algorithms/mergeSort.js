@@ -15,7 +15,7 @@ export function mergeSort(arr, speed, bars, colors) {
         break;
       case "move":
         // moves the smallest of the two compared to kth index
-        if (first !== second) {
+        if (first < second) { // checks if first is smaller than second due to shifting
           setTimeout(() => {
             bars[first].style.backgroundColor = colors.swap;
             bars[second].style.backgroundColor = colors.swap;
@@ -68,22 +68,17 @@ function merge(arr, l, m, r, animations) {
   let j = 0;
   let k = l;
 
+  let shift = 0; // accounts for left array shifting when merging
   while (i < L.length && j < R.length) {
-    animations.push(["next", l + i, m + 1 + j]); // two values being compared
+    animations.push(["next", l + i + shift, m + 1 + j]); // two values being compared
     if (L[i] < R[j]) {
       arr[k] = L[i];
-      // checks to see whether elements are in order
-      // This is needed due to the shifting of heights in the animation but
-      // not in the actuala array indices
-      if (l + i >= k) {
-        animations.push(["move", k, l + i]); // move smaller value to current index
-      }
+      animations.push(["move", k, l + i]); // move smaller value to current index\
       i++;
     } else {
       arr[k] = R[j];
-      if (m + 1 + j >= k) {
-        animations.push(["move", k, m + 1 + j]);
-      }
+      animations.push(["move", k, m + 1 + j]);
+      shift ++;
       j++;
     }
     k++;

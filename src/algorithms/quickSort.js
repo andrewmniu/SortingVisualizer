@@ -1,4 +1,4 @@
-export const quickSort = (arr, speed, bars, colors) => {
+export function quickSort(arr, speed, bars, colors){
   const animations = [];
   const sorted = quickSortAnimation(arr, 0, arr.length - 1, animations);
   let frame = 0; // animation frame
